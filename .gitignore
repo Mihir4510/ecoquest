@@ -17,3 +17,5 @@ build/
 
 # OS files
 .DS_Store
+
+backend/visionserviceaccount.json.json
