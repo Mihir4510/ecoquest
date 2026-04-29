@@ -49,11 +49,22 @@ const userSchema = mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, default: "student" }, // ✅ Added role field
+    role: { type: String, default: "student" },
     points: { type: Number, default: 0 },
+    
+    // Level System
+    level: { type: Number, default: 1 },
+    levelName: { type: String, default: "🌱 Seed" },
+    levelMessage: { type: String, default: "You started your green journey!" },
+    
+    // Streak Tracking
+    streakCount: { type: Number, default: 0 },
+    lastActivityDate: { type: Date, default: null },
+    
     stats: {
       treesPlanted: { type: Number, default: 0 },
       activitiesCompleted: { type: Number, default: 0 },
+      wasteRecycled: { type: Number, default: 0 },
     },
     badges: [{ type: String }],
     recentActivities: [
@@ -63,6 +74,38 @@ const userSchema = mongoose.Schema(
         date: String,
       },
     ],
+    
+    // Penalty System
+    penaltyLog: [
+      {
+        type: { type: String, enum: ['inactivity', 'unsustainable', 'behavior_trend', 'streak_break', 'challenge_failure', 'ai_detected'] },
+        points: { type: Number, required: true },
+        reason: { type: String, required: true },
+        date: { type: Date, default: Date.now },
+        tierMultiplier: { type: Number, default: 1 },
+        originalPoints: { type: Number, required: true },
+        recovered: { type: Boolean, default: false }
+      }
+    ],
+    
+    // Eco Health Tracking
+    ecoHealth: {
+      score: { type: Number, default: 100 },
+      zone: { type: String, enum: ['green', 'yellow', 'red'], default: 'green' },
+      lastCalculated: { type: Date, default: Date.now }
+    },
+    
+    // Recovery System
+    recoveryChallenges: [
+      {
+        challengeId: String,
+        title: String,
+        description: String,
+        points: Number,
+        completed: { type: Boolean, default: false },
+        completedAt: Date
+      }
+    ]
   },
   { timestamps: true }
 );

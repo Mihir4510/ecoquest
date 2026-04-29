@@ -45,6 +45,9 @@ export const registerUser = async (req, res) => {
       name: user.name,
       email: user.email,
       points: user.points,
+      level: user.level,
+      levelName: user.levelName,
+      streakCount: user.streakCount,
       token: generateToken(user._id),
     });
   } catch (error) {
@@ -77,6 +80,9 @@ export const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         points: user.points,
+        level: user.level,
+        levelName: user.levelName,
+        streakCount: user.streakCount,
         token: generateToken(user._id),
       });
     } else {
@@ -109,7 +115,12 @@ export const getUserProfile = async (req, res) => {
       name: user.name,
       email: user.email,
       points: user.points || 0,
-      stats: user.stats || { treesPlanted: 0, activitiesCompleted: 0 },
+      level: user.level || 1,
+      levelName: user.levelName || "🌱 Seed",
+      levelMessage: user.levelMessage || "You started your green journey!",
+      streakCount: user.streakCount || 0,
+      lastActivityDate: user.lastActivityDate,
+      stats: user.stats || { treesPlanted: 0, activitiesCompleted: 0, wasteRecycled: 0 },
       badges: user.badges || [],
       recentActivities: user.recentActivities || [],
     });
